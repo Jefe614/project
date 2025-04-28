@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Registration - Crucial Cargo Movers{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mb-4">Cargo Registration</h1>
+    <div class="row">
+        <div class="col-md-8">
+            <form method="POST" enctype="multipart/form-data" class="card p-4">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="cargo-description" class="form-label">Cargo Description:</label>
+                    <textarea class="form-control" id="cargo-description" name="description" rows="5" placeholder="Describe your cargo..." required></textarea>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="cargo-images" class="form-label">Upload Cargo Images:</label>
+                    <input class="form-control" type="file" id="cargo-images" name="images" multiple accept="image/*" required>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Request Quotation</button>
+            </form>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title">Your Quotation Will Appear Here</h2>
+                    <p class="card-text">Please complete the form and click on "Request Quotation" to receive your estimated cost.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

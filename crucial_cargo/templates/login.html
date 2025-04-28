@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Login | Sign Up | About Us{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <ul class="nav nav-pills nav-justified mb-4" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="login-tab" data-bs-toggle="tab" data-bs-target="#login" type="button" role="tab">Login</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="signup-tab" data-bs-toggle="tab" data-bs-target="#signup" type="button" role="tab">Sign Up</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="about-tab" data-bs-toggle="tab" data-bs-target="#about" type="button" role="tab">About Us</button>
+                </li>
+            </ul>
+
+            <div class="tab-content" id="myTabContent">
+                
+                <!-- Login Tab -->
+                <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="login-tab">
+                    <div class="card shadow-sm p-4 border-0 rounded-4">
+                        <div class="card-body">
+                            <h2 class="card-title text-center mb-4">Login</h2>
+                            <form id="loginForm" method="POST" action="{% url 'login' %}">
+                                {% csrf_token %}
+                                <div class="mb-3">
+                                    <input type="text" class="form-control form-control-lg rounded-3" id="username" name="username" placeholder="Username" required>
+                                </div>
+                                <div class="mb-3">
+                                    <input type="password" class="form-control form-control-lg rounded-3" id="password" name="password" placeholder="Password" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-lg w-100 rounded-3">Login</button>
+                            </form>
+                            <p class="text-center mt-3">
+                                Don't have an account? 
+                                <a href="#" id="showSignup">Sign Up</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sign Up Tab -->
+                <div class="tab-pane fade" id="signup" role="tabpanel" aria-labelledby="signup-tab">
+                    <div class="card shadow-sm p-4 border-0 rounded-4">
+                        <div class="card-body">
+                            <h2 class="card-title text-center mb-4">Sign Up</h2>
+                            <form id="signupForm" method="POST" action="{% url 'register' %}">
+                                {% csrf_token %}
+                                <div class="mb-3">
+                                    <input type="text" class="form-control form-control-lg rounded-3" id="signupUsername" name="signupUsername" placeholder="Username" required>
+                                </div>
+                                <div class="mb-3">
+                                    <input type="email" class="form-control form-control-lg rounded-3" id="signupEmail" name="signupEmail" placeholder="Gmail" required>
+                                </div>
+                                <div class="mb-3">
+                                    <input type="password" class="form-control form-control-lg rounded-3" id="signupPassword" name="signupPassword" placeholder="Create Password" required>
+                                </div>
+                                <div class="mb-3">
+                                    <input type="password" class="form-control form-control-lg rounded-3" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-lg w-100 rounded-3">Create Account</button>
+                            </form>
+                            <p class="text-center mt-3">
+                                Already have an account? 
+                                <a href="#" id="showLogin">Login</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- About Us Tab -->
+                <div class="tab-pane fade" id="about" role="tabpanel" aria-labelledby="about-tab">
+                    <div class="card shadow-sm p-4 border-0 rounded-4">
+                        <div class="card-body">
+                            <h2 class="card-title text-center mb-4">About Us</h2>
+                            <p class="lead text-center">Welcome to our platform! We are dedicated to making your experience secure and seamless.</p>
+                            <p class="text-center">Built by passionate developers, our goal is to bring useful tools to everyone.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div> <!-- tab-content -->
+        </div>
+    </div>
+</div>
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Manual switching to Sign Up form
+    document.getElementById('showSignup').addEventListener('click', function(e) {
+        e.preventDefault();
+        let signupTab = new bootstrap.Tab(document.getElementById('signup-tab'));
+        signupTab.show();
+    });
+
+    // Manual switching to Login form
+    document.getElementById('showLogin').addEventListener('click', function(e) {
+        e.preventDefault();
+        let loginTab = new bootstrap.Tab(document.getElementById('login-tab'));
+        loginTab.show();
+    });
+});
+</script>
+{% endblock %}
+{% endblock %}

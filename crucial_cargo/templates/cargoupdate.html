@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Cargo Update - Crucial Cargo Movers{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mb-4">Cargo Status Update</h1>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>Tracking ID</th>
+                    <th>Client Name</th>
+                    <th>Cargo Description</th>
+                    <th>Status</th>
+                    <th>Last Updated</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>#CARGO123</td>
+                    <td>ABC Traders</td>
+                    <td>Electronics & Accessories</td>
+                    <td><span class="badge bg-warning">Clearing</span></td>
+                    <td>2025-04-21</td>
+                </tr>
+                <!-- More rows... -->
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

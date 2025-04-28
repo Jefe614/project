@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Dashboard - Crucial Cargo Movers{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h1>Dashboard</h1>
+            <p class="lead">Welcome back, John Doe</p>
+        </div>
+        <div class="col-md-4 text-md-end">
+            <button class="btn btn-primary">
+                <i class="fas fa-plus me-2"></i>New Shipment
+            </button>
+        </div>
+    </div>
+    
+    <div class="row">
+        <!-- Stats Cards -->
+        <div class="col-md-3 mb-4">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Active Shipments</h5>
+                    <h2 class="card-text">12</h2>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3 mb-4">
+            <div class="card bg-success text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Completed</h5>
+                    <h2 class="card-text">45</h2>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3 mb-4">
+            <div class="card bg-warning text-dark">
+                <div class="card-body">
+                    <h5 class="card-title">In Transit</h5>
+                    <h2 class="card-text">8</h2>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3 mb-4">
+            <div class="card bg-info text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Pending</h5>
+                    <h2 class="card-text">3</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Recent Shipments -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="mb-0">Recent Shipments</h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Tracking ID</th>
+                            <th>Destination</th>
+                            <th>Status</th>
+                            <th>Est. Delivery</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#CARGO789</td>
+                            <td>New York, USA</td>
+                            <td><span class="badge bg-success">Delivered</span></td>
+                            <td>Apr 20, 2025</td>
+                            <td>
+                                <button class="btn btn-sm btn-outline-primary">
+                                    <i class="fas fa-eye"></i> View
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#CARGO456</td>
+                            <td>London, UK</td>
+                            <td><span class="badge bg-warning">In Transit</span></td>
+                            <td>Apr 25, 2025</td>
+                            <td>
+                                <button class="btn btn-sm btn-outline-primary">
+                                    <i class="fas fa-eye"></i> View
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#CARGO123</td>
+                            <td>Tokyo, Japan</td>
+                            <td><span class="badge bg-info">Processing</span></td>
+                            <td>May 2, 2025</td>
+                            <td>
+                                <button class="btn btn-sm btn-outline-primary">
+                                    <i class="fas fa-eye"></i> View
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Quick Actions -->
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="fas fa-file-signature fa-3x mb-3 text-primary"></i>
+                    <h5 class="card-title">New Registration</h5>
+                    <p class="card-text">Register new cargo for shipment</p>
+                    <a href="{% url 'registration' %}" class="btn btn-primary">Go to Registration</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="fas fa-file-invoice-dollar fa-3x mb-3 text-success"></i>
+                    <h5 class="card-title">Generate Report</h5>
+                    <p class="card-text">Create invoices and reports</p>
+                    <a href="{% url 'reports' %}" class="btn btn-success">Go to Reports</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="fas fa-question-circle fa-3x mb-3 text-info"></i>
+                    <h5 class="card-title">Need Help?</h5>
+                    <p class="card-text">Visit our FAQ section</p>
+                    <a href="{% url 'faq' %}" class="btn btn-info">Go to FAQ</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
