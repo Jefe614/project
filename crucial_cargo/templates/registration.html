@@ -1,37 +1,98 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Registration - Crucial Cargo Movers{% endblock %}
+{% block title %}Cargo Registration - Crucial Cargo Movers{% endblock %}
 
 {% block content %}
 <div class="container">
-    <h1 class="mb-4">Cargo Registration</h1>
-    <div class="row">
+    <div class="row justify-content-center">
         <div class="col-md-8">
-            <form method="POST" enctype="multipart/form-data" class="card p-4">
-                {% csrf_token %}
-                <div class="mb-3">
-                    <label for="cargo-description" class="form-label">Cargo Description:</label>
-                    <textarea class="form-control" id="cargo-description" name="description" rows="5" placeholder="Describe your cargo..." required></textarea>
-                </div>
-                
-                <div class="mb-3">
-                    <label for="cargo-images" class="form-label">Upload Cargo Images:</label>
-                    <input class="form-control" type="file" id="cargo-images" name="images" multiple accept="image/*" required>
-                </div>
-                
-                <button type="submit" class="btn btn-primary">Request Quotation</button>
-            </form>
-        </div>
-        
-        <div class="col-md-4">
             <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">New Cargo Registration</h3>
+                </div>
                 <div class="card-body">
-                    <h2 class="card-title">Your Quotation Will Appear Here</h2>
-                    <p class="card-text">Please complete the form and click on "Request Quotation" to receive your estimated cost.</p>
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <div class="mb-3">
+                            <label for="{{ form.description.id_for_label }}" class="form-label">Cargo Description</label>
+                            {{ form.description }}
+                            {% if form.description.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ form.description.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="{{ form.destination.id_for_label }}" class="form-label">Destination</label>
+                            {{ form.destination }}
+                            {% if form.destination.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ form.destination.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="{{ form.estimated_delivery.id_for_label }}" class="form-label">Estimated Delivery Date</label>
+                            {{ form.estimated_delivery }}
+                            {% if form.estimated_delivery.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ form.estimated_delivery.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="images" class="form-label">Cargo Images (Multiple)</label>
+                            <input type="file" name="images" id="images" class="form-control" multiple>
+                            <small class="text-muted">Upload images of your cargo for documentation</small>
+                        </div>
+                        
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-save me-2"></i>Submit Registration
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<style>
+    /* Custom styling for form inputs */
+    .form-control, .form-select {
+        padding: 10px 15px;
+        border-radius: 5px;
+        border: 1px solid #ced4da;
+        transition: all 0.3s;
+    }
+    
+    .form-control:focus, .form-select:focus {
+        border-color: #86b7fe;
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    }
+    
+    textarea.form-control {
+        min-height: 120px;
+    }
+    
+    .invalid-feedback {
+        color: #dc3545;
+        font-size: 0.875em;
+    }
+    
+    .card {
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        border: none;
+    }
+    
+    .card-header {
+        border-radius: 5px 5px 0 0 !important;
+    }
+</style>
 {% endblock %}

@@ -160,3 +160,20 @@ def download_invoice(request, invoice_id):
 
 def faq(request):
     return render(request, 'faq.html')
+
+
+
+@login_required
+def cargo_detail(request, cargo_id):
+    cargo = get_object_or_404(Cargo, id=cargo_id, client=request.user)
+    images = CargoImage.objects.filter(cargo=cargo)
+    quotations = Quotation.objects.filter(cargo=cargo).order_by('-created_at')
+    invoices = Invoice.objects.filter(cargo=cargo).order_by('-issue_date')
+    
+    context = {
+        'cargo': cargo,
+        'images': images,
+        'quotations': quotations,
+        'invoices': invoices,
+    }
+    return render(request, 'cargo_detail.html', context)

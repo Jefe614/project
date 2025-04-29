@@ -1,0 +1,205 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Cargo #{{ cargo.tracking_id }} - Crucial Cargo Movers{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h1>Cargo Details</h1>
+            <p class="lead">Tracking ID: {{ cargo.tracking_id }}</p>
+        </div>
+        <div class="col-md-4 text-md-end">
+            <a href="{% url 'cargo_update' %}" class="btn btn-outline-secondary">
+                <i class="fas fa-arrow-left me-2"></i>Back to List
+            </a>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Main Cargo Info -->
+        <div class="col-md-8 mb-4">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Shipment Information</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6>Description</h6>
+                            <p>{{ cargo.description }}</p>
+                            
+                            <h6>Destination</h6>
+                            <p>{{ cargo.destination }}</p>
+                            
+                            <h6>Status</h6>
+                            <p>
+                                <span class="badge 
+                                    {% if cargo.status == 'delivered' %}bg-success
+                                    {% elif cargo.status == 'in_transit' %}bg-warning
+                                    {% else %}bg-info{% endif %}">
+                                    {{ cargo.get_status_display }}
+                                </span>
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            <h6>Created At</h6>
+                            <p>{{ cargo.created_at|date:"M d, Y H:i" }}</p>
+                            
+                            <h6>Last Updated</h6>
+                            <p>{{ cargo.updated_at|date:"M d, Y H:i" }}</p>
+                            
+                            <h6>Estimated Delivery</h6>
+                            <p>{{ cargo.estimated_delivery|date:"M d, Y" }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cargo Images -->
+            {% if images %}
+            <div class="card mt-4">
+                <div class="card-header bg-secondary text-white">
+                    <h5 class="mb-0">Cargo Images</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        {% for image in images %}
+                        <div class="col-md-4 mb-3">
+                            <a href="{{ image.image.url }}" data-lightbox="cargo-images">
+                                <img src="{{ image.image.url }}" alt="Cargo Image" class="img-thumbnail">
+                            </a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Sidebar with Documents -->
+        <div class="col-md-4">
+            <!-- Quotations -->
+            <div class="card mb-4">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">Quotations</h5>
+                </div>
+                <div class="card-body">
+                    {% if quotations %}
+                    <ul class="list-group list-group-flush">
+                        {% for quote in quotations %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong>Ksh{{ quote.amount }}</strong>
+                                <div class="text-muted small">Valid until: {{ quote.valid_until|date:"M d, Y" }}</div>
+                            </div>
+                            <a href="#" class="btn btn-sm btn-outline-success">
+                                <i class="fas fa-download"></i>
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <p class="text-muted">No quotations available</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Invoices -->
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0">Invoices</h5>
+                </div>
+                <div class="card-body">
+                    {% if invoices %}
+                    <ul class="list-group list-group-flush">
+                        {% for invoice in invoices %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong>{{ invoice.invoice_id }}</strong>
+                                <div class="text-muted small">Due: {{ invoice.due_date|date:"M d, Y" }}</div>
+                            </div>
+                            <a href="{% url 'download_invoice' invoice.id %}" class="btn btn-sm btn-outline-primary">
+                                <i class="fas fa-download"></i>
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <p class="text-muted">No invoices available</p>
+                    {% endif %}
+                    
+                    {% if cargo.status != 'delivered' %}
+                    <div class="d-grid mt-3">
+                        <a href="{% url 'generate_invoice' cargo.id %}" class="btn btn-info">
+                            <i class="fas fa-file-invoice me-2"></i>Generate New Invoice
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Lightbox CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
+
+{% endblock %}
+
+{% block scripts %}
+<!-- Lightbox JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
+
+<script>
+    // Initialize lightbox
+    lightbox.option({
+        'resizeDuration': 200,
+        'wrapAround': true,
+        'albumLabel': "Image %1 of %2"
+    });
+</script>
+{% endblock %}
+
+<style>
+    .card {
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+    }
+    
+    .card-header {
+        border-radius: 10px 10px 0 0 !important;
+        padding: 15px 20px;
+    }
+    
+    .img-thumbnail {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+        cursor: pointer;
+        transition: transform 0.3s;
+    }
+    
+    .img-thumbnail:hover {
+        transform: scale(1.05);
+    }
+    
+    .list-group-item {
+        padding: 15px;
+        border-left: none;
+        border-right: none;
+    }
+    
+    h6 {
+        color: #6c757d;
+        font-weight: 600;
+        margin-bottom: 5px;
+    }
+    
+    .badge {
+        font-size: 0.9rem;
+        padding: 6px 12px;
+    }
+</style>

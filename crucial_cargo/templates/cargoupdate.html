@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Cargo Update - Crucial Cargo Movers{% endblock %}
 
@@ -10,23 +11,66 @@
             <thead class="table-dark">
                 <tr>
                     <th>Tracking ID</th>
-                    <th>Client Name</th>
-                    <th>Cargo Description</th>
+                    <th>Description</th>
+                    <th>Destination</th>
                     <th>Status</th>
+                    <th>Est. Delivery</th>
                     <th>Last Updated</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
+                {% for cargo in cargos %}
                 <tr>
-                    <td>#CARGO123</td>
-                    <td>ABC Traders</td>
-                    <td>Electronics & Accessories</td>
-                    <td><span class="badge bg-warning">Clearing</span></td>
-                    <td>2025-04-21</td>
+                    <td>{{ cargo.tracking_id }}</td>
+                    <td>{{ cargo.description|truncatechars:30 }}</td>
+                    <td>{{ cargo.destination }}</td>
+                    <td>
+                        <span class="badge 
+                            {% if cargo.status == 'delivered' %}bg-success
+                            {% elif cargo.status == 'in_transit' %}bg-warning
+                            {% else %}bg-info{% endif %}">
+                            {{ cargo.get_status_display }}
+                        </span>
+                    </td>
+                    <td>{{ cargo.estimated_delivery|date:"M d, Y" }}</td>
+                    <td>{{ cargo.updated_at|date:"M d, Y" }}</td>
+                    <td>
+                        <a href="{% url 'cargo_detail' cargo.id %}" class="btn btn-sm btn-outline-primary">
+                            <i class="fas fa-eye"></i> View
+                        </a>
+                    </td>
                 </tr>
-                <!-- More rows... -->
+                {% empty %}
+                <tr>
+                    <td colspan="7" class="text-center">No cargo shipments found</td>
+                </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>
 </div>
+
+<style>
+    .table {
+        font-size: 0.9rem;
+    }
+    
+    .table th {
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        letter-spacing: 0.5px;
+    }
+    
+    .badge {
+        padding: 5px 10px;
+        font-size: 0.75rem;
+        font-weight: 500;
+    }
+    
+    .table-hover tbody tr:hover {
+        background-color: rgba(13, 110, 253, 0.05);
+    }
+</style>
 {% endblock %}
